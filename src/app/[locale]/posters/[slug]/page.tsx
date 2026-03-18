@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, use } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { useTranslations } from "next-intl";
 import { notFound } from "next/navigation";
 
-export default function PosterPage({ params: { slug } }: { params: { slug: string } }) {
+export default function PosterPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params);
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
 

@@ -10,7 +10,8 @@ import { CustomContextMenu } from "@/components/ui/CustomContextMenu";
 import { PersistentAudio } from "@/components/ui/PersistentAudio";
 import "../globals.css";
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'Index' });
   return {
     title: t('title'),
@@ -20,11 +21,12 @@ export async function generateMetadata({ params: { locale } }: { params: { local
 
 export default async function RootLayout({
   children,
-  params: { locale }
+  params
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   const messages = await getMessages();
 
   return (
